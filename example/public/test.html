@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Opus Encoder Example</title>
+
+    <script src="audio/decoderWorker.min.js"></script>
+    
+    <!--<script src="OpusUtils.js"></script>-->
+    <script src="AudioRecorder.js"></script>
+    <script src="LiveAudioPlayer.js"></script>
+    <script src="AudioBufferList.js"></script>
+    
+    
+    
+    
+<!--
+    <script src="aurora/aurora.js"></script>
+    <script src="aurora/ogg.js"></script>
+    <script src="aurora/opus.js"></script>
+    <script src="aurora/LiveAudioSource.js"></script>
+    <script src="aurora/StreamPlayer.js"></script>
+-->
+    
+
+    <style type="text/css">
+        ul {
+            list-style: none;
+        }
+        
+        li {
+            margin: 1em;
+        }
+        
+        audio {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Opus encoder example</h1>
+
+    <h2>Options</h2>
+
+    <div>
+        <label>numberOfChannels: 1</label>
+    </div>
+
+    <div>
+        <label>encoderSampleRate: 24000</label>
+    </div>
+
+    <div>
+        <label>bitRate: 128000</label>
+    </div>
+
+    <div>
+        <label>encoderFrameSize: 60</label>
+    </div>
+
+    <h2>Commands</h2>
+    <button id="init">init</button>
+    <button id="start" disabled>start</button>
+    <button id="pause" disabled>pause</button>
+    <button id="resume" disabled>resume</button>
+    <button id="stopButton" disabled>stop</button>
+
+    <button id="startPlayer">start player</button>
+
+    <button id="stopPlayer" disabled>stop player</button>
+
+    <h2>Recordings</h2>
+    <ul id="recordingslist"></ul>
+
+    <h2>Log</h2>
+    <pre id="log"></pre>
+
+    <script>
+        var recorder;
+        var audioPlayer = new LiveAudioPlayer();
+
+        startPlayer.addEventListener("click", function() {
+            audioPlayer.play = true;
+
+            startPlayer.disabled = true;
+            stopPlayer.disabled = false;
+        });
+
+        stopPlayer.addEventListener("click", function() {
+            audioPlayer.play = false;
+
+            startPlayer.disabled = false;
+            stopPlayer.disabled = true;
+        });
+
+        start.addEventListener("click", function() {
+            recorder.start();
+        });
+        
+        pause.addEventListener("click", function() {
+            recorder.pause();
+        });
+        resume.addEventListener("click", function() {
+            recorder.resume();
+        });
+        stopButton.addEventListener("click", function() {
+            recorder.stop();
+        });
+        
+        init.addEventListener("click", function() {
+
+            if (!AudioRecorder.isRecordingSupported()) {
+                return screenLogger("Recording features are not supported in your browser.");
+            }
+
+            recorder = new AudioRecorder({
+                bitRate: 128000,
+                encoderSampleRate: 24000,
+                encoderPath: 'audio/encoderWorker.min.js',
+                encoderFrameSize: 60,
+                numberOfChannels: 1
+            });
+
+            recorder.onStart = function(e) {
+                screenLogger('Recorder is started');
+                init.disabled = start.disabled = resume.disabled = true;
+                pause.disabled = stopButton.disabled = false;
+            };
+
+            recorder.onStop = function(e) {
+                screenLogger('Recorder is stopped');
+                init.disabled = false;
+                pause.disabled = resume.disabled = stopButton.disabled = start.disabled = true;
+            };
+
+            recorder.onPause = function(e) {
+                screenLogger('Recorder is paused');
+                init.disabled = pause.disabled = start.disabled = true;
+                resume.disabled = stopButton.disabled = false;
+            };
+
+            recorder.onResume = function(e) {
+                screenLogger('Recorder is resuming');
+                init.disabled = start.disabled = resume.disabled = true;
+                pause.disabled = stopButton.disabled = false;
+            };
+
+            recorder.onStreamError = function(e) {
+                screenLogger('Error encountered: ' + e.error.name);
+            };
+
+            recorder.onStreamReady = function(e) {
+                init.disabled = pause.disabled = resume.disabled = stopButton.disabled = true;
+                start.disabled = false;
+                screenLogger('Audio stream is ready.');
+            };
+
+            recorder.onDataAvailable = function(e) {
+                // console.log('handle audio ' + OpusUtils.getAudioDuration(e.detail) + 'packet len: ' + e.detail.length);
+
+                audioPlayer.putAudio(e.detail);
+                //auroraPlayer.decodeAudio(e.detail);
+            };
+
+            recorder.initStream();
+        });
+
+        function screenLogger(text, data) {
+            log.innerHTML += "\n" + text + " " + (data || '');
+        }
+    </script>
+</body>
+
+</html>

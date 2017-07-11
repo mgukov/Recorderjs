@@ -1,0 +1,15 @@
+{
+  "name": "audio",
+  "version": "1.0.0",
+  "description": "audio service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mgukov",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3",
+    "opus-encode": "^2.0.2"
+  }
+}
