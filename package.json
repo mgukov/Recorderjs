@@ -1,5 +1,5 @@
 {
-  "name": "opus-recorder",
+  "name": "opus-webaudio",
   "version": "0.6.2",
   "description": "A library for recording opus encoded audio",
   "homepage": "https://github.com/chris-rudmin/Recorderjs",
@@ -19,13 +19,12 @@
   "main": "dist/recorder.min.js",
   "files": [
     "dist/recorder.min.js",
-    "dist/encoderWorker.min.js",
-    "dist/decoderWorker.min.js",
-    "dist/waveWorker.min.js"
+    "dist/encoder.min.js",
+    "dist/decoder.min.js"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/chris-rudmin/Recorderjs.git"
+    "url": "git://github.com/mgukov/WebAudio.git"
   },
   "bugs": {
     "url": "https://github.com/chris-rudmin/Recorderjs/issues",

@@ -7,9 +7,9 @@ var should = chai.should();
 var expect = chai.expect;
 
 
-describe('encoderWorker', function() {
+describe('encoder', function() {
 
-  var OggOpusEncoder = require('../dist/encoderWorker.min');
+  var OpusEncoder = require('../dist/encoder.min');
   var sandbox = sinon.sandbox.create();
   var _opus_encoder_create_spy;
   var _opus_encoder_ctl_spy;
@@ -31,11 +31,11 @@ describe('encoderWorker', function() {
   beforeEach(function(){
     global.postMessage = sandbox.stub();
     global.close = sandbox.stub();
-    _opus_encoder_create_spy = sandbox.spy(OggOpusEncoder, '_opus_encoder_create');
-    _opus_encoder_ctl_spy = sandbox.spy(OggOpusEncoder, '_opus_encoder_ctl');
-    _speex_resampler_process_interleaved_float_spy = sandbox.spy(OggOpusEncoder, '_speex_resampler_process_interleaved_float');
-    _speex_resampler_init_spy = sandbox.spy(OggOpusEncoder, '_speex_resampler_init');
-    _opus_encode_float_spy = sandbox.spy(OggOpusEncoder, '_opus_encode_float');
+    _opus_encoder_create_spy = sandbox.spy(OpusEncoder, '_opus_encoder_create');
+    _opus_encoder_ctl_spy = sandbox.spy(OpusEncoder, '_opus_encoder_ctl');
+    _speex_resampler_process_interleaved_float_spy = sandbox.spy(OpusEncoder, '_speex_resampler_process_interleaved_float');
+    _speex_resampler_init_spy = sandbox.spy(OpusEncoder, '_speex_resampler_init');
+    _opus_encode_float_spy = sandbox.spy(OpusEncoder, '_opus_encode_float');
   });
 
   afterEach(function () {
@@ -43,7 +43,7 @@ describe('encoderWorker', function() {
   });
 
   it('should initialize config', function () {
-    var encoder = new OggOpusEncoder({
+    var encoder = new OpusEncoder({
       originalSampleRate: 44100
     });
 
@@ -51,14 +51,14 @@ describe('encoderWorker', function() {
     expect(encoder).to.have.property('encoderSampleRate', 48000);
     expect(encoder).to.have.property('maxBuffersPerPage', 40);
     expect(encoder).to.have.property('encoderApplication', 2049);
-    expect(encoder).to.have.property('encoderFrameSize', 20);
+    expect(encoder).to.have.property('encoderFrameSize', 60);
     expect(encoder).to.have.property('bufferLength', 4096);
     expect(encoder).to.have.property('resampleQuality', 3);
     expect(encoder).to.have.property('originalSampleRate', 44100);
   });
 
   it('should initialize encoder', function () {
-    var encoder = new OggOpusEncoder({
+    var encoder = new OpusEncoder({
       originalSampleRate: 44100
     });
 
@@ -67,7 +67,7 @@ describe('encoderWorker', function() {
   });
 
   it('should configure bitRate', function () {
-    var encoder = new OggOpusEncoder({
+    var encoder = new OpusEncoder({
       originalSampleRate: 44100,
       bitRate: 16000
     });
@@ -76,7 +76,7 @@ describe('encoderWorker', function() {
   });
 
   it('should configure compexity', function () {
-    var encoder = new OggOpusEncoder({
+    var encoder = new OpusEncoder({
       originalSampleRate: 44100,
       encoderComplexity: 10
     });
@@ -98,7 +98,7 @@ describe('encoderWorker', function() {
       }
     }
 
-    new OggOpusEncoder({
+    new OpusEncoder({
       originalSampleRate: 44100
     });
 
@@ -118,7 +118,7 @@ describe('encoderWorker', function() {
       }
     }
 
-    new OggOpusEncoder({
+    new OpusEncoder({
       originalSampleRate: 44100,
       originalSampleRateOverride: 16000
     });
@@ -141,7 +141,7 @@ describe('encoderWorker', function() {
       }
     }
 
-    new OggOpusEncoder({
+    new OpusEncoder({
       originalSampleRate: 44100
     });
   });

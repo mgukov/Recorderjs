@@ -6,10 +6,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Opus Encoder Example</title>
 
-    <script src="audio/decoderWorker.min.js"></script>
+    <script src="audio/libopus.min.js"></script>
+    <script src="audio/decoder.js"></script>
+    <script src="audio/encoder.js"></script>
+    <script src="audio/recorder.js"></script>
     
-    <!--<script src="OpusUtils.js"></script>-->
-    <script src="AudioRecorder.js"></script>
     <script src="LiveAudioPlayer.js"></script>
     <script src="AudioBufferList.js"></script>
     
@@ -120,7 +121,6 @@
             recorder = new AudioRecorder({
                 bitRate: 128000,
                 encoderSampleRate: 24000,
-                encoderPath: 'audio/encoderWorker.min.js',
                 encoderFrameSize: 60,
                 numberOfChannels: 1
             });

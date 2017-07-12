@@ -8,6 +8,7 @@ chai.use(sinonChai);
 var should = chai.should();
 var expect = chai.expect;
 
+var OpusEncoder = require('../dist/encoder.min');
 
 describe('Recorder unsupported', function(){
 
@@ -77,16 +78,15 @@ describe('Recorder', function(){
     var rec = new Recorder();
     expect(global.AudioContext).to.have.been.calledWithNew;
     expect(rec.state).to.equal('inactive');
-    expect(rec.config).to.have.property('bufferLength', 4096);
+    expect(rec.config).to.have.property('bufferLength', 1024);
     expect(rec.config).to.have.property('monitorGain', 0);
     expect(rec.config).to.have.property('numberOfChannels', 1);
     expect(rec.config).to.have.property('encoderSampleRate', 48000);
-    expect(rec.config).to.have.property('encoderPath', 'encoderWorker.min.js');
-    expect(rec.config).to.have.property('streamPages', false);
-    expect(rec.config).to.have.property('leaveStreamOpen', false);
-    expect(rec.config).to.have.property('maxBuffersPerPage', 40);
+    expect(rec.config).to.have.property('encoderPath', 'encoder.min.js');
+    expect(rec.config).to.have.property('leaveStreamOpen', true);
+    expect(rec.config).to.have.property('maxBuffersPerPage', 1);
     expect(rec.config).to.have.property('encoderApplication', 2049);
-    expect(rec.config).to.have.property('encoderFrameSize', 20);
+    expect(rec.config).to.have.property('encoderFrameSize', 60);
     expect(rec.config).to.have.property('resampleQuality', 3);
   });
 
@@ -97,8 +97,7 @@ describe('Recorder', function(){
       numberOfChannels: 2,
       bitRate: 16000,
       encoderSampleRate: 16000,
-      encoderPath: "../dist/encoderWorker.min.js",
-      streamPages: true,
+      encoderPath: "../dist/encoder.min.js",
       leaveStreamOpen: false,
       maxBuffersPerPage: 1000,
       encoderApplication: 2048,
@@ -113,8 +112,7 @@ describe('Recorder', function(){
     expect(rec.config).to.have.property('numberOfChannels', 2);
     expect(rec.config).to.have.property('bitRate', 16000);
     expect(rec.config).to.have.property('encoderSampleRate', 16000);
-    expect(rec.config).to.have.property('encoderPath', '../dist/encoderWorker.min.js');
-    expect(rec.config).to.have.property('streamPages', true);
+    expect(rec.config).to.have.property('encoderPath', '../dist/encoder.min.js');
     expect(rec.config).to.have.property('leaveStreamOpen', false);
     expect(rec.config).to.have.property('maxBuffersPerPage', 1000);
     expect(rec.config).to.have.property('encoderApplication', 2048);

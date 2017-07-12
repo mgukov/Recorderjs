@@ -179,9 +179,9 @@ AudioRecorder.prototype.start = function () {
     if (this.state === "inactive" && this.stream) {
         var self = this;
         this.encoder = new OpusEncoder(this.config);
-        this.encoder.onPackageEncoded(function (package) {
+        this.encoder.onPackageEncoded = function (package) {
             self.streamPage(package);
-        });
+        };
 
         // First buffer can contain old data. Don't encode it.
         this.encodeBuffers = function () {

@@ -1,11 +1,10 @@
 {
-  "name": "opus-recorderjs",
-  "description": "Record audio from the mic into ogg opus format",
+  "name": "opus-webaudio",
+  "description": "Record audio from the mic into opus format",
   "main": [
     "dist/recorder.min.js",
-    "dist/encoderWorker.min.js",
-    "dist/decoderWorker.min.js",
-    "dist/waveWorker.min.js"
+    "dist/encoder.min.js",
+    "dist/decoder.min.js"
   ],
   "license": [
     "MIT",
@@ -30,6 +29,6 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/chris-rudmin/Recorderjs.git"
+    "url": "git://github.com/mgukov/WebAudio.git"
   }
 }

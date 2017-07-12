@@ -12,7 +12,7 @@ function OpusDecoder(config) {
     this.numberOfChannels = 1;
     this.init();
 };
-
+ 
 OpusDecoder.prototype.init = function () {
     this.initCodec();
     this.initResampler();
@@ -78,3 +78,4 @@ OpusDecoder.prototype.decode = function (typedArray) {
     
     return new Float32Array(outData);
 };
+
