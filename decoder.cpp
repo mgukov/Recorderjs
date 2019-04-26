@@ -75,6 +75,7 @@ void close_decoder(void * dec) {
         OpusDecoder * opus = (OpusDecoder*)dec;
 
         free(opus->decoderOutputBuffer);
+        free(opus->resamplerOutputBuffer);
         opus_decoder_destroy(opus->decoder);
         speex_resampler_destroy(opus->resampler);
 
