@@ -14,7 +14,7 @@ int decode_samples(int id, void * dec, unsigned char const * nal, int nalsz)
 After audio decoding callback will be called
 
 ```
-decoded_callback(id, ptr, len)
+decode_callback(id, ptr, len)
 ```
 
 ---------
