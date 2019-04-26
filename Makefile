@@ -6,7 +6,7 @@ DEFAULT_EXPORTS:='_free','_malloc', 'ccall', 'cwrap'
 
 LIBOPUS_LIBOPUS=$(OUTPUT_DIR)/libopus.js
 
-LIBOPUS_STABLE=tags/v1.1.4
+LIBOPUS_STABLE=tags/v1.3.1
 LIBOPUS_DIR=./opus
 LIBOPUS_OBJ=$(LIBOPUS_DIR)/.libs/libopus.a
 
@@ -27,9 +27,8 @@ $(LIBOPUS_PUCK): $(LIBOPUS_LIBOPUS) $(RECORDER)
 	cat before.js dist/libopus.js after.js > dist/libopus.wasm.js
 	rm dist/libopus.js
 
-# $(LIBOPUS_DIR) $(LIBSPEEXDSP_DIR)
 clean:
-	rm -rf $(OUTPUT_DIR) 
+	rm -rf $(OUTPUT_DIR) $(LIBOPUS_DIR) $(LIBSPEEXDSP_DIR)
 	mkdir $(OUTPUT_DIR)
 
 $(LIBOPUS_DIR)/autogen.sh:
@@ -55,6 +54,3 @@ $(LIBOPUS_LIBOPUS): decoder.cpp $(LIBOPUS_OBJ) $(LIBSPEEXDSP_OBJ)
 	emcc -o $@ $(EMCC_OPTS) -s EXPORTED_FUNCTIONS="[$(LIBOPUS_EXPORTS)]" \
 		-s EXTRA_EXPORTED_RUNTIME_METHODS="[$(DEFAULT_EXPORTS)]" \
 		$(LIBOPUS_OBJ) $(LIBSPEEXDSP_OBJ) -Iopus/include -Ispeexdsp/include/speex
-
-#$(RECORDER): $(RECORDER_SRC)
-#	npm run uglify -- $(RECORDER_SRC) -c -m -o $@
