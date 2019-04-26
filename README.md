@@ -1,9 +1,21 @@
-# Opus Recorder
+# Opus javascript library
 
 A javascript library to encode/decode audio in Opus format. Audio encoded and decoded using libopus v1.1.4. Audio resampling is performed by speexDSP 1.2RC3. 
 Encoded and muxed audio will be returned as typedArray.
 
 ### Usage
+
+```
+void * open_decoder(int inSampleRate, int outSampleRate, int channelNumber)
+void close_decoder(void * dec) 
+int decode_samples(int id, void * dec, unsigned char const * nal, int nalsz)
+```
+
+After audio decoding callback will be called
+
+```
+decoded_callback(id, ptr, len)
+```
 
 ---------
 ### Building from sources
